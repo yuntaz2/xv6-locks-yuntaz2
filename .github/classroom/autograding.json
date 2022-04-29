@@ -1,0 +1,74 @@
+{
+  "tests": [
+    {
+      "name": "Environment Setup",
+      "setup": "",
+      "run": "sudo apt-get update; sudo apt-get install git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu gcc",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Make",
+      "setup": "",
+      "run": "make",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "kalloctest_1",
+      "setup": "",
+      "run": "./grade-lab-lock \"kalloctest: test1\"",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 20
+    },
+    {
+      "name": "kalloctest_2",
+      "setup": "",
+      "run": "./grade-lab-lock \"kalloctest: test2\"",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 20
+    },
+    {
+      "name": "kalloctest_sbrkmuch",
+      "setup": "",
+      "run": "./grade-lab-lock \"kalloctest: sbrkmuch\"",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 20
+    },
+    {
+      "name": "bcachetest_0",
+      "setup": "",
+      "run": "./grade-lab-lock \"bcachetest: test0\"",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 20
+    },
+    {
+      "name": "bcachetest_1",
+      "setup": "",
+      "run": "./grade-lab-lock \"bcachetest: test1\"",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 20
+    }
+  ]
+}
