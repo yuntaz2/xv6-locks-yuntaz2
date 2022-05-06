@@ -73,7 +73,7 @@ int delete_mapping(int r_hash, Data *r_data)
     return 0; // all position is checked but not found
 }
 
-static Data *dget(int dep, int id) // get data from department and id and put it to the hashtable without change its size`
+static Data *dget(int dep, int id)
 {
     Data *d;
     int s_hash = hash(dep, id);
