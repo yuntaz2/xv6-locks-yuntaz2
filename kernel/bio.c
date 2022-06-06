@@ -26,6 +26,7 @@
 
 struct
 {
+  // assign a lock to every bucket
   struct spinlock lock[NBUCKETS];
   struct buf buf[NBUF];
 
@@ -38,7 +39,7 @@ struct
 void binit(void)
 {
   struct buf *b;
-  for (int i = 0; i < NBUCKETS; ++i)
+  for (int i = 0; i < NBUCKETS; ++i) // initialize all the locks
   {
     initlock(&bcache.lock[i], "bcache");
     // Create linked list of buffers
@@ -85,13 +86,13 @@ bget(uint dev, uint blockno)
     }
   }
 
-  unsigned char conflictIdx = getIndex(blockno + 1);
   // Not cached.
-  // Recycle the least recently used (LRU) unused buffer.
-  while (idx != conflictIdx)
+  // Recycle the next unused buffer because I'm lazy and it is final
+  unsigned char nextIdx = getIndex(blockno + 1);
+  while (nextIdx != idx)
   {
-    acquire(&bcache.lock[conflictIdx]);
-    for (b = bcache.head[conflictIdx].prev; b != &bcache.head[conflictIdx]; b = b->prev)
+    acquire(&bcache.lock[nextIdx]);
+    for (b = bcache.head[nextIdx].prev; b != &bcache.head[nextIdx]; b = b->prev)
     {
       if (b->refcnt == 0)
       {
@@ -101,7 +102,7 @@ bget(uint dev, uint blockno)
         b->refcnt = 1;
         b->next->prev = b->prev;
         b->prev->next = b->next;
-        release(&bcache.lock[conflictIdx]);
+        release(&bcache.lock[nextIdx]);
         b->next = bcache.head[idx].next;
         b->prev = &bcache.head[idx];
         bcache.head[idx].next->prev = b;
@@ -112,8 +113,8 @@ bget(uint dev, uint blockno)
         return b;
       }
     }
-    release(&bcache.lock[conflictIdx]);
-    conflictIdx = getIndex(conflictIdx + 1);
+    release(&bcache.lock[nextIdx]);
+    nextIdx = getIndex(nextIdx + 1);
   }
   panic("bget: no buffers");
 }
